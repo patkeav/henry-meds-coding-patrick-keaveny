@@ -5,6 +5,6 @@ export interface Schedule {
     slots: {
         date: Date,
         reserved: boolean,
-        confirmed: boolean;
+        confirmed: boolean,
     }[];
 }

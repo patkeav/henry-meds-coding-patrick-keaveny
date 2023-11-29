@@ -10,11 +10,16 @@ import PROVIDERS from '../../api/providers.const';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { Provider } from '../../models/Provider.model';
 
+interface Event extends DateSelectArg {
+  name: Provider;
+  backgroundColor: string;
+  title: string;
+}
+
 function ProviderScheduler({ providerData }: { providerData: Provider[] }) {
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [providers] = useState(providerData);
   const [currentProvider, setCurrentProvider] = useState<Provider>(providerData[0]);
-  console.log(events);
 
   const updateProviderSchedule = (p: Provider, data: DateSelectArg) => {
     let interval = 0;
@@ -102,8 +107,7 @@ function ProviderScheduler({ providerData }: { providerData: Provider[] }) {
   );
 }
 
-// a custom render function
-function renderEventContent(eventInfo: any) {
+const renderEventContent = (eventInfo: any) => {
   return (
     <>
       <b>{eventInfo.timeText}</b>
@@ -111,6 +115,6 @@ function renderEventContent(eventInfo: any) {
       <i>{eventInfo.event.title}</i>
     </>
   );
-}
+};
 
 export default ProviderScheduler;

@@ -35,9 +35,16 @@ const PROVIDERS = {
         if (index > -1) {
             const dateIndex = providerData[index].schedule.findIndex(s => s.date === slot.date);
             if (dateIndex > -1) {
-                providerData[index].schedule[dateIndex].slots.push({ date: slot.slotTime, reserved: false, confirmed: false });
+                providerData[index].schedule[dateIndex].slots.push({
+                    date: slot.slotTime, reserved: false, confirmed: false
+
+                });
             } else {
-                providerData[index].schedule.push({ date: slot.date, slots: [{ date: slot.slotTime, reserved: false, confirmed: false }] });
+                providerData[index].schedule.push({
+                    date: slot.date, slots: [{
+                        date: slot.slotTime, reserved: false, confirmed: false,
+                    }]
+                });
             }
         }
     },

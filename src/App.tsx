@@ -24,8 +24,12 @@ function App() {
         </Button>
       </Box>
       <Box sx={{ mt: 6 }}>
-        {currentView === 'providers' && <ProviderScheduler providerData={providers} />}
-        {currentView === 'clients' && <ClientScheduler providerData={providers} />}
+        <div className={currentView === 'providers' ? 'show' : 'hide'}>
+          <ProviderScheduler providerData={providers} />
+        </div>
+        <div className={currentView === 'clients' ? 'show' : 'hide'}>
+          <ClientScheduler providerData={providers} />{' '}
+        </div>
       </Box>
     </div>
   );
