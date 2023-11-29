@@ -14,6 +14,7 @@ function ProviderScheduler({ providerData }: { providerData: Provider[] }) {
   const [events, setEvents] = useState<any[]>([]);
   const [providers] = useState(providerData);
   const [currentProvider, setCurrentProvider] = useState<Provider>(providerData[0]);
+  console.log(events);
 
   const updateProviderSchedule = (p: Provider, data: DateSelectArg) => {
     let interval = 0;
