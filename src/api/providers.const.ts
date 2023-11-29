@@ -1,4 +1,5 @@
 import { Provider } from '../models/Provider.model';
+import { Schedule } from '../models/Schedule.model';
 
 const providerData: Provider[] = [{
     id: 1,
@@ -28,6 +29,17 @@ const providerData: Provider[] = [{
 const PROVIDERS = {
     get: () => {
         return providerData;
+    },
+    set: (id: number, slot: { date: string, slotTime: Date; }) => {
+        const index = providerData.findIndex((p => p.id === id));
+        if (index > -1) {
+            const dateIndex = providerData[index].schedule.findIndex(s => s.date === slot.date);
+            if (dateIndex > -1) {
+                providerData[index].schedule[dateIndex].slots.push(slot.slotTime);
+            } else {
+                providerData[index].schedule.push({ date: slot.date, slots: [slot.slotTime] });
+            }
+        }
     }
 };
 

@@ -10,3 +10,8 @@
 .providers-heading {
   text-align: left;
 }
+
+.clients {
+  max-width: 300px;
+  margin: 0 auto;
+}

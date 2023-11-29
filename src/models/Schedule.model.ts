@@ -2,5 +2,5 @@
 
 export interface Schedule {
     date: string;
-    slot: string;
+    slots: Date[];
 }

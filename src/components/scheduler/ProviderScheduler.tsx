@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -10,13 +10,25 @@ import PROVIDERS from '../../api/providers.const';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { Provider } from '../../models/Provider.model';
 
-function Scheduler() {
+function ProviderScheduler({ providerData }: { providerData: Provider[] }) {
   const [events, setEvents] = useState<any[]>([]);
-  const [providers] = useState(PROVIDERS.get());
-  const [currentProvider, setCurrentProvider] = useState<Provider>(providers[0]);
+  const [providers] = useState(providerData);
+  const [currentProvider, setCurrentProvider] = useState<Provider>(providerData[0]);
+
+  const updateProviderSchedule = (p: Provider, data: DateSelectArg) => {
+    let interval = 0;
+    const slots = (data.end.getTime() - data.start.getTime()) / 1000 / 60 / 15; // get all 15 minute intervals for this event
+    for (let i = 0; i < slots; i++) {
+      PROVIDERS.set(p.id, {
+        // add 15 minute slots for this provider for this date
+        date: data.start.toDateString(),
+        slotTime: new Date(data.start.getTime() + interval * 60000),
+      });
+      interval += 15;
+    }
+  };
 
   const handleEventClick = (data: DateSelectArg) => {
-    console.log(data);
     setEvents([
       ...events,
       {
@@ -26,7 +38,7 @@ function Scheduler() {
         ...data,
       },
     ]);
-    console.table(events);
+    updateProviderSchedule(currentProvider, data);
   };
 
   const isCurrentProvider = (p: Provider) => {
@@ -50,22 +62,6 @@ function Scheduler() {
 
   return (
     <div className="scheduler">
-      <FullCalendar
-        plugins={[interactionPlugin, dayGridPlugin, timeGridPlugin]}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay',
-        }}
-        initialView="timeGridWeek"
-        editable={true}
-        selectable={true}
-        selectMirror={true}
-        dayMaxEvents={true}
-        events={events}
-        eventContent={renderEventContent}
-        select={handleEventClick}
-      />
       <Box className="providers">
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" className="providers-heading">
@@ -85,13 +81,28 @@ function Scheduler() {
           ))}
         </Grid>
       </Box>
+      <FullCalendar
+        plugins={[interactionPlugin, dayGridPlugin, timeGridPlugin]}
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay',
+        }}
+        initialView="timeGridWeek"
+        editable={true}
+        selectable={true}
+        selectMirror={true}
+        dayMaxEvents={true}
+        events={events}
+        eventContent={renderEventContent}
+        select={handleEventClick}
+      />
     </div>
   );
 }
 
 // a custom render function
 function renderEventContent(eventInfo: any) {
-  console.log(eventInfo);
   return (
     <>
       <b>{eventInfo.timeText}</b>
@@ -101,4 +112,4 @@ function renderEventContent(eventInfo: any) {
   );
 }
 
-export default Scheduler;
+export default ProviderScheduler;
