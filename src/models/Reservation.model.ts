@@ -1,7 +1,9 @@
+import { Slot } from './Slot.model';
 
 
 export interface Reservation {
-    date: string;
-    slot: string;
-    confirmed: boolean;
+    provider: string;
+    slot: Slot;
+    remaining: number;
+    started: string;
 }

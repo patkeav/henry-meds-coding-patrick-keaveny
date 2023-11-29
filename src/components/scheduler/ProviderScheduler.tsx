@@ -21,11 +21,16 @@ function ProviderScheduler({ providerData }: { providerData: Provider[] }) {
   const [providers] = useState(providerData);
   const [currentProvider, setCurrentProvider] = useState<Provider>(providerData[0]);
 
-  const updateProviderSchedule = (p: Provider, data: DateSelectArg) => {
+  /**
+   * Helper method to take the calendar event, split it into 15 minute slots, then add that to the PROVIDERS array
+   * @param p
+   * @param data
+   */
+  const updateProviderSchedule = (provider: Provider, data: DateSelectArg) => {
     let interval = 0;
     const slots = (data.end.getTime() - data.start.getTime()) / 1000 / 60 / 15; // get all 15 minute intervals for this event
     for (let i = 0; i < slots; i++) {
-      PROVIDERS.set(p.id, {
+      PROVIDERS.set(provider.id, {
         // add 15 minute slots for this provider for this date
         date: data.start.toDateString(),
         slotTime: new Date(data.start.getTime() + interval * 60000),
@@ -34,6 +39,12 @@ function ProviderScheduler({ providerData }: { providerData: Provider[] }) {
     }
   };
 
+  /**
+   * Handles the click from when a user adds an event to the calendar
+   *
+   * Updates Provider schedule with the calendar event
+   * @param data
+   */
   const handleEventClick = (data: DateSelectArg) => {
     setEvents([
       ...events,
@@ -47,12 +58,22 @@ function ProviderScheduler({ providerData }: { providerData: Provider[] }) {
     updateProviderSchedule(currentProvider, data);
   };
 
-  const isCurrentProvider = (p: Provider) => {
-    return currentProvider.name === p.name;
+  /**
+   * Helper method to determine if the current selected provider is the given provider
+   * @param p
+   * @returns
+   */
+  const isCurrentProvider = (provider: Provider) => {
+    return currentProvider.name === provider.name;
   };
 
-  const getEventColor = (p: Provider) => {
-    switch (p.id) {
+  /**
+   *  Helper method to map providers to colors for use on the calendar
+   * @param p
+   * @returns
+   */
+  const getEventColor = (provider: Provider) => {
+    switch (provider.id) {
       case 1:
         return '#1565c0';
       case 2:
