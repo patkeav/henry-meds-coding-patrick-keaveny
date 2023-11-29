@@ -1,5 +1,4 @@
 import { Provider } from '../models/Provider.model';
-import { Schedule } from '../models/Schedule.model';
 
 const providerData: Provider[] = [{
     id: 1,
