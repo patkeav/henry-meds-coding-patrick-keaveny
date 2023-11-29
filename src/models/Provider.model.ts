@@ -1,7 +1,9 @@
-import { Schedule } from "./Schedule.model"
+import { Schedule } from "./Schedule.model";
 
 
 export interface Provider {
     id: number,
-    schedule: Schedule[]
+    name: string,
+    variant: "primary" | "secondary" | "info" | "success",
+    schedule: Schedule[];
 }

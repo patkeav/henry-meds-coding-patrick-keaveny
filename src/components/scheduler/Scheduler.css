@@ -1,7 +1,12 @@
-
-
-
 .scheduler {
-    max-width: 780px;
-    margin: 0 auto;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.providers {
+  margin: 25px 0;
+}
+
+.providers-heading {
+  text-align: left;
 }
