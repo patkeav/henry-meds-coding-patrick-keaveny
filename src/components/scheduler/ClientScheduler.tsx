@@ -77,6 +77,12 @@ function ClientScheduler({ providerData }: { providerData: Provider[] }) {
   };
 
   /**
+   * Helper method to format the slot appointment so it's readable
+   * @param slot
+   */
+  const formatSlotAppointment = (slot: Slot) => ` ${slot.date.toLocaleDateString()} at ${slot.date.toLocaleTimeString()} `
+
+  /**
    * React hook to set the timer interval
    *
    * For each second, remove 1 second from the reservation's time remaining
@@ -99,6 +105,8 @@ function ClientScheduler({ providerData }: { providerData: Provider[] }) {
     return () => clearInterval(interval);
   });
 
+  useEffect(() => {}, [pendingReservations])
+
   return (
     <div className="client">
       {pendingReservations.length ? (
@@ -112,15 +120,15 @@ function ClientScheduler({ providerData }: { providerData: Provider[] }) {
               {pendingReservations.map((p, index) => (
                 <Grid item xs={6} key={index}>
                   <List className="client-reservation">
-                    <ListSubheader>
+                    <ListSubheader disableSticky>
                       {!p.slot.confirmed ? (
                         <>
                           Pending reservation with {p.provider} on
-                          {p.slot.date.toLocaleTimeString()}
+                          {formatSlotAppointment(p.slot)}
                         </>
                       ) : (
                         <strong>
-                          Reservation with {p.provider} on {p.slot.date.toLocaleTimeString()}
+                          Reservation with {p.provider} on {formatSlotAppointment(p.slot)} 
                           Confirmed
                         </strong>
                       )}

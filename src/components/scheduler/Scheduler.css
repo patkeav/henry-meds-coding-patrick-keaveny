@@ -2,6 +2,7 @@
 .client {
   max-width: 780px;
   margin: 0 auto;
+  padding: 0 10px 50px 10px;
 }
 
 .providers {
@@ -35,5 +36,6 @@
 }
 
 .client-reservation {
+  background-color: #fff;
   border: 1px solid #fff;
 }
